@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio Matemático</title>
+    <link rel="stylesheet" href="prueba2.css">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="imagenes/Icono DPCL (1).png" type="image/x-icon">
+    <nav> 
+        <h1 class = "logo"><a href="index.html"><img class = "imgDPCL" src="imagenes/Icono DPCL (1).png" alt="DPCL"></a></h1>
+        <div class="trofeo">
+            <img id = "trofeo" src="imagenes/stash--trophy-solid.png" alt="trofeo">
+            <span id="valor" class="textos">0</span>
+        </div>
+        <button id = "mas" class="mas"><img class = "menu" src="imagenes/ic--round-menu.png" alt="menu"></button>
+        
+    </nav>
+</head>
+<body>
+    <div id = "op" class="op">
+        <div class = "opciones">
+            <ul class="opc">
+                <li><a class="textos" href="index.html">Inicio</a></li>
+                <li><a class="textos" href="actividades.html">Actividades</a></li>
+                <li><a class="textos" href="info.html">Info</a></li>
+                <li><a class="textos" href="comentarios.html">Comentarios</a></li>
+                
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="jiji">
+        <h1>Ejercicio Matemático</h1>
+        <div id="timeSelection">
+            <h2>Selecciona el tiempo:</h2>
+            <button onclick="startGame(15)">15 segundos</button>
+            <button onclick="startGame(30)">30 segundos</button>
+            <button onclick="startGame(60)">1 minuto</button>
+        </div>
+        <p id="operation"></p>
+        <input type="number" id="userAnswer" placeholder="Respuesta" min="0" />
+        <button id="checkButton" onclick="checkAnswer()" style="display: none;">Comprobar</button> <!-- Botón oculto -->
+        <p id="resultMessage"></p>
+        <button id="nextButton" onclick="generateOperation()">Siguiente Ejercicio</button>
+        <p id="timer"></p>
+        <div id="results">
+            <h3>Resultados</h3>
+            <p id="totalSolved"></p>
+            <button onclick="resetGame()">Jugar de nuevo</button> <!-- Botón para reiniciar el juego -->
+        </div>
+
+    </div>
+
+    <audio id="sonidoError" preload="auto">
+        <source src="incorrecto.wav" type="audio/mpeg">
+        Tu navegador no soporta la etiqueta de audio.
+    </audio>
+
+    <audio id="sonidoCorrecto" preload="auto">
+        <source src="correcto.wav" type="audio/wav">
+        Tu navegador no soporta la etiqueta de audio.
+    </audio>
+
+    <script>
+        document.getElementById("mas").addEventListener("click", function() {
+            var div = document.getElementById("op");
+            if (div.style.display === "none" || div.style.display === "") {
+                div.style.display = "flex";
+            } else {
+                div.style.display = "none";
+            }
+        });
+
+        let num1, num2, operator, correctAnswer;
+        let totalSolved = 0;
+        let timeLimit;
+        let timerInterval;
+
+        // Mostrar el selector de tiempo al cargar la página
+        window.onload = function() {
+            document.getElementById('timeSelection').style.display = 'block';
+        };
+
+        function startGame(time) {
+            timeLimit = time;
+            totalSolved = 0; // Reiniciar el contador de respuestas correctas
+            document.getElementById('timeSelection').style.display = 'none'; // Ocultar el selector de tiempo
+            document.getElementById('userAnswer').style.display = 'inline'; // Mostrar el input para respuestas
+            document.getElementById('checkButton').style.display = 'inline'; // Mostrar el botón de comprobar
+            generateOperation(); // Generar la primera operación
+            startTimer(); // Iniciar el temporizador
+        }
+
+        function startTimer() {
+            let timeLeft = timeLimit;
+            document.getElementById('timer').innerText = `Tiempo restante: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = `Tiempo restante: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endGame(); // Llamar a la función de fin de juego
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            clearInterval(timerInterval); // Detener el temporizador
+            document.getElementById('operation').innerText = '';
+            document.getElementById('userAnswer').style.display = 'none'; // Ocultar el input de respuesta
+            document.getElementById('checkButton').style.display = 'none'; // Ocultar el botón de comprobar
+            document.getElementById('nextButton').style.display = 'none'; // Ocultar el botón de siguiente
+            document.getElementById('resultMessage').innerText = '';
+            document.getElementById('timer').innerText = '';
+            document.getElementById('results').style.display = 'block'; // Mostrar resultados
+            document.getElementById('totalSolved').innerText = `Total resueltos: ${totalSolved}`;
+        }
+
+        function generateOperation() {
+            const operators = ['+', '-', '*', '/'];
+            operator = operators[Math.floor(Math.random() * operators.length)];
+
+            // Generar números dependiendo del operador
+            if (operator === '+') {
+                num1 = Math.floor(Math.random() * 100) + 1; // Número aleatorio entre 1 y 100
+                num2 = Math.floor(Math.random() * 100) + 1; // Número aleatorio entre 1 y 100
+            } else if (operator === '-') {
+                num1 = Math.floor(Math.random() * 100) + 1; // Número aleatorio entre 1 y 100
+                num2 = Math.floor(Math.random() * num1) + 1; // Asegurar que num2 sea menor que num1
+            } else if (operator === '*') {
+                num1 = Math.floor(Math.random() * 10) + 1; // Limitar a números más pequeños para evitar grandes resultados
+                num2 = Math.floor(Math.random() * 10) + 1; // Limitar a números más pequeños
+            } else if (operator === '/') {
+                num2 = Math.floor(Math.random() * 9) + 1; // Evitar división por cero
+                num1 = num2 * (Math.floor(Math.random() * 10) + 1); // Asegurar que el resultado sea entero
+            }
+
+            // Calcular la respuesta correcta
+            switch (operator) {
+                case '+':
+                    correctAnswer = num1 + num2;
+                    break;
+                case '-':
+                    correctAnswer = num1 - num2;
+                    break;
+                case '*':
+                    correctAnswer = num1 * num2;
+                    break;
+                case '/':
+                    correctAnswer = (num1 / num2).toFixed(2); // Redondear a 2 decimales
+                    break;
+            }
+
+            // Mostrar la operación en el HTML
+            document.getElementById('operation').innerText = `${num1} ${operator} ${num2} = ?`;
+            document.getElementById('userAnswer').value = ''; // Limpiar el input
+            document.getElementById('resultMessage').innerText = ''; // Limpiar el mensaje de resultado
+            document.getElementById('nextButton').style.display = 'none'; // Ocultar el botón de siguiente
+        }
+
+        function checkAnswer() {
+    const userAnswer = parseFloat(document.getElementById('userAnswer').value).toFixed(2);
+    if (userAnswer == correctAnswer) { // Usar == para comparación
+        sonidoCorrecto.play();
+        document.getElementById('resultMessage').innerText = '¡Correcto! Bien hecho.';
+        document.getElementById('resultMessage').style.color = 'green';
+        totalSolved++; // Incrementar el total de respuestas correctas
+
+        // Esperar 1 segundo y luego generar la siguiente operación
+        setTimeout(() => {
+            generateOperation(); // Generar la siguiente operación automáticamente
+        }, 1000); // 1000 milisegundos = 1 segundo
+    } else {
+        sonidoError.play();
+        document.getElementById('resultMessage').innerText = `Incorrecto.`;
+        document.getElementById('resultMessage').style.color = 'red';
+    }
+}
+
+
+        function resetGame() {
+            totalSolved = 0; // Reiniciar el contador
+            document.getElementById('results').style.display = 'none'; // Ocultar resultados
+            document.getElementById('timeSelection').style.display = 'block'; // Mostrar el selector de tiempo
+            document.getElementById('userAnswer').style.display = 'none'; // Ocultar el input de respuesta
+            document.getElementById('checkButton').style.display = 'none'; // Ocultar el botón de comprobar
+            document.getElementById('nextButton').style.display = 'none'; // Ocultar el botón de siguiente
+            document.getElementById('resultMessage').innerText = ''; // Limpiar mensaje de resultado
+        }
+
+        ///////
+
+        // Inicializamos el valor de localStorage si no existe
+        if (!localStorage.getItem('contador')) {
+            localStorage.setItem('contador', 0);
+        }
+
+        // Función para actualizar el valor en el HTML
+        function actualizarValor() {
+            const valor = localStorage.getItem('contador');
+            document.getElementById('valor').textContent = valor;
+        }
+
+        // Actualizamos el valor al cargar la página
+        actualizarValor();
+
+        // Evento para el botón que suma 30, pero solo una vez
+        document.getElementById('regreso').addEventListener('click', () => {
+            // Verificamos si ya se sumaron los puntos una vez
+            if (localStorage.getItem('botonPresionado') !== 'true') {
+                let valorActual = parseInt(localStorage.getItem('contador'));
+                valorActual += 30;
+                localStorage.setItem('contador', valorActual);
+                localStorage.setItem('botonPresionado', 'true');  // Registramos que ya se sumó
+                actualizarValor();
+            }
+        });
+
+        // Escuchamos cambios en el localStorage para sincronizar entre pestañas
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'contador') {
+                actualizarValor();
+            }
+        });
+    </script>
+
+</body>
+
+<footer>
+
+    <div class="info">
+        <h2>DPCL</h2>
+        <p>Contactanos en:</p>
+        
+        
+    </div>
+
+    <div class="contactos">
+        <a class= "Enlace"href="mailto:contactodpcl@gmail.com"> 
+            <img class="imgEmail" src="imagenes/Vector-Email-Icon-Transparent.png" alt="email">
+        </a>
+        
+        <a  href="https://www.instagram.com/dpcl_web/?utm_source=ig_web_button_share_sheet">
+            <img class = "IG" src="imagenes/instagram_white_28dp.png" alt="IG">
+        </a>
+
+    </div>
+    
+    
+</footer>
+</html>

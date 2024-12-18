@@ -1,0 +1,265 @@
+/* Ajustes generales */
+html, body {
+    height: 100%;
+    overflow: auto;
+}
+
+body {
+    font-family: "Heebo", sans-serif;
+    text-align: center;
+    background-color: #ebccee;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: auto;
+}
+
+
+hr {
+    width: 100%; /* Asegura que se mantenga dentro de los márgenes de la página */
+    max-width: 500px; /* Limita su tamaño máximo */
+    margin: auto; /* Centrar */
+}
+
+/* Tablero */
+#board {
+    width: clamp(200px, 50vw, 450px); /* Escala de acuerdo a la pantalla */
+    height: clamp(200px, 50vw, 450px);
+    margin: 20px auto; /* Añadir margen superior/inferior */
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tile {
+    width: calc(100% / 9 - 2px); /* 9 columnas menos 2px por los bordes */
+    height: calc(100% / 9 - 2px);
+    border: 1px solid gray;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Digits - Números de entrada */
+#digits {
+    width: clamp(200px, 50vw, 450px);
+    height: 50px;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+}
+
+/* Ajustes de las celdas de los números */
+.number-selected {
+    background-color: rgb(168, 148, 170);
+}
+
+.number {
+    width: 44px; 
+    height: 44px;
+    border: 1px solid black;
+    margin: 2px;
+    font-size: clamp(12px, 2vw, 20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.horizontal-line {
+    border-bottom: 1px solid black;
+}
+
+.vertical-line {
+    border-right: 1px solid black;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 800px) {
+    #board {
+        width: 300px; /* El tablero ocupará el 90% del ancho de la pantalla */
+        height: 300px; /* Mantener proporción cuadrada */
+    }
+
+    #digits {
+        place-items: center;
+        width: 300px;
+        height: 40px;
+       
+    }
+
+    .number {
+        margin: 1px;
+        width: 28px;
+        height: 28px;
+        font-size: 14px; /* Ajustar el tamaño de los números en pantallas pequeñas */
+    }
+
+    #check {
+        margin-top: 10px;
+        padding: 5px 10px;
+        font-size: 12px; /* Tamaño de texto más pequeño */
+    }
+}
+
+/* Estilos para el leaderboard y la lista de tiempos */
+#leaderboard {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#times-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    display: block;
+}
+
+#times-list li {
+    display: block;
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+/* Estilos de la navegación */
+.imgDPCL {
+    min-width: 20px;
+    max-width: 60px;
+    width: 100%;
+    height: auto;
+    margin-right: 5px;
+
+}
+
+body {
+    font-family: "Heebo", sans-serif;
+    background-color: #ebccee;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    
+}
+
+/* Navigation Styles */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(176, 129, 219);
+    padding: 10px;
+    overflow-x: hidden;
+
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    padding: 0;
+    
+}
+
+ul li {
+    margin: clamp(5px, 10px, 20px);
+    padding: 0;
+}
+
+ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: clamp(12px, 14px, 18px);
+    padding: 0;
+}
+
+ul li:last-child {
+    margin-right: 0; /* Elimina el margen derecho del último elemento */
+}
+
+@media (max-width: 800px) {
+    .imgDPCL {
+        width: 40px;
+        height: auto;
+        padding: 0;
+    }
+
+    ul li {
+        margin: 4px; /* Reduce los márgenes en pantallas pequeñas */
+        padding: 0;
+    }
+
+    ul li a {
+        font-size: 12px; /* Reduce el tamaño del texto en pantallas pequeñas */
+        padding: 0;
+    }
+}
+
+footer {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: "Heebo", sans-serif;
+    background-color: #d2a5d6;
+    height: 110px;
+    width: 100%;
+    
+    padding: 0;
+}
+
+.Enlace {
+    text-decoration: none;
+    color: black;
+    
+}
+
+.IG{
+    background-color: rgb(49, 49, 49);
+    margin-top: 42px;
+    margin-left: 5px;
+    max-width: 34px;
+    margin-right: 50px;
+    height: 34px;
+    border-radius: 17px;
+}
+
+.imgEmail {
+    background-color: white;
+    margin-top: 50px;
+    max-width: 24px;
+    height: auto;
+}
+
+.info {
+    color: rgb(40, 42, 43);
+    margin-left: 50px;
+}
+
+.contactos {
+    display: flex;
+    justify-content: end;
+    margin-right: 55px;
+}
+
+@media(prefers-color-scheme: dark){
+    body {
+        background-color: #312531;
+        color: white;
+    }
+
+    nav {
+        background-color: #17111d;
+    }
+
+    footer {
+        background-color: #17111d;
+    }
+
+    .info{
+        color: white;
+    }
+
+}
