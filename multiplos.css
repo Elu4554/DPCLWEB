@@ -1,0 +1,153 @@
+body {
+    font-family: "Heebo", sans-serif;
+    background-color: #ebccee;
+    text-align: justify;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    
+}
+
+a {
+    text-decoration: none;
+}
+
+.contenedor {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.no1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.no2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.boton {
+    border-radius: 5px;
+    background-color: #d3a1d8;
+    width: 50px;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.correcto {
+    background-color: green;
+    color: white;
+}
+
+#botonExtra {
+    display: none; /* Oculto por defecto */
+    background-color: rgb(214, 181, 245);
+    width: 120px;
+    border-color: rgb(196, 155, 235);
+    border-radius: 5%;
+    text-align: center;
+    align-items: center; /* Asegura que el texto esté centrado dentro del botón */
+    
+}
+
+.contBig {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.no3 {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+}
+
+.imgDPCL {
+    min-width: 20px;
+    max-width: 60px;
+    width: 100%;
+    height: auto;
+    margin-right: 5px;
+    height: 100%;
+
+}
+
+nav {
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(176, 129, 219);
+    padding: 10px;
+    overflow-x: hidden;
+    
+
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    padding: 0;
+    
+}
+
+ul li {
+    margin: clamp(5px, 10px, 20px);
+    padding: 0;
+}
+
+ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: clamp(12px, 14px, 18px);
+    padding: 0;
+}
+
+ul li:last-child {
+    margin-right: 0; /* Elimina el margen derecho del último elemento */
+}
+
+@media (max-width: 800px) {
+    .imgDPCL {
+        width: 40px;
+        height: auto;
+        padding: 0;
+    }
+
+    ul li {
+        margin: 4px; /* Reduce los márgenes en pantallas pequeñas */
+        padding: 0;
+    }
+
+    ul li a {
+        font-size: 12px; /* Reduce el tamaño del texto en pantallas pequeñas */
+        padding: 0;
+    }
+}
+
+@media(prefers-color-scheme: dark){
+    body {
+        background-color: #312531;
+        color: white;
+    }
+
+    nav {
+        background-color: #17111d;
+    }
+
+    footer {
+        background-color: #17111d;
+    }
+
+    .info{
+        color: white;
+    }
+
+}

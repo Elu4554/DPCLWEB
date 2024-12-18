@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crucigrama Matemático</title>
+    <link rel="stylesheet" href="cruci.css">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="imagenes/Icono DPCL (1).png" type="image/x-icon">
+    <nav> 
+        <h1 class = "logo"><a href="index.html"><img class = "imgDPCL" src="imagenes/Icono DPCL (1).png" alt="DPCL"></a></h1>
+        <div class="trofeo">
+            <img id = "trofeo" src="imagenes/stash--trophy-solid.png" alt="trofeo">
+            <span id="valor" class="textos">0</span>
+        </div>
+        <button id = "mas" class="mas"><img class = "menu" src="imagenes/ic--round-menu.png" alt="menu"></button>
+        
+    </nav>
+</head>
+<body>
+    <div id = "op" class="op">
+        <div class = "opciones">
+            <ul class="opc">
+                <li><a class="textos" href="index.html">Inicio</a></li>
+                <li><a class="textos" href="actividades.html">Actividades</a></li>
+                <li><a class="textos" href="info.html">Info</a></li>
+                <li><a class="textos" href="comentarios.html">Comentarios</a></li>
+                
+            </ul>
+        </div>
+
+    </div>
+
+    <h2>Crucigrama Matemático</h2>
+    <div class="pagina">
+        <div class="crucigrama">
+            <!-- Fila 1 -->
+            <input type="text" maxlength="1" id="c1" value="2" readonly>
+            <input type="text" maxlength="1" id="c2" value="*" readonly>
+            <input type="text" maxlength="1" id="c3">
+            <input type="text" maxlength="1" id="c4" value="=" readonly>
+            <input type="text" maxlength="1" id="c5" value="8" readonly>
+    
+            <!-- Fila 2 -->
+            <input disabled>
+            <input disabled>
+            <input type="text" maxlength="1" id="c6" value="+" readonly>
+            <input disabled>
+            <input disabled>
+    
+            <!-- Fila 3 -->
+            <input type="text" maxlength="2" id="c10" >
+            <input type="text" maxlength="2" id="c11" value="-" readonly>
+            <input type="text" maxlength="2" id="c7" >
+            <input type="text" maxlength="2" id="c12" value="=" readonly >
+            <input type="text" maxlength="2" id="c13" value="1" readonly>
+    
+            <!-- Fila 4 -->
+            <input disabled>
+            <input disabled>
+            <input type="text" maxlength="1" id="c8" value="=" readonly>
+            <input disabled>
+            <input disabled>
+    
+            <!-- Fila 5 -->
+            <input disabled>
+            <input disabled>
+            <input type="text" maxlength="1" id="c9" value="14" readonly>
+            <input disabled>
+            <input disabled>
+            
+        </div>
+    
+        
+
+    </div>
+    <div class="botonVer">
+        <button class="boton-verificar" onclick="verificarCrucigrama()">Verificar</button>
+
+    </div>
+    
+
+    <div id="resultado"></div>
+
+    
+
+    <script>
+        document.getElementById("mas").addEventListener("click", function() {
+            var div = document.getElementById("op");
+            if (div.style.display === "none" || div.style.display === "") {
+                div.style.display = "flex";
+            } else {
+                div.style.display = "none";
+            }
+        });
+
+        function verificarCrucigrama() {
+            const respuestas = {
+                c3: "4", c7: "10", c10: "11", c13: "1"
+                
+            };
+
+            let correcto = true;
+            for (let id in respuestas) {
+                const input = document.getElementById(id);
+                if (input.value !== respuestas[id]) {
+                    input.style.backgroundColor = "red";
+                    correcto = false;
+                } else {
+                    input.style.backgroundColor = "lightgreen";
+                }
+            }
+
+            const resultado = document.getElementById("resultado");
+            if (correcto) {
+                resultado.textContent = "¡Felicidades! Has completado el crucigrama correctamente.";
+                resultado.style.color = "green";
+            } else {
+                resultado.textContent = "Algunas respuestas son incorrectas. ¡Inténtalo de nuevo!";
+                resultado.style.color = "red";
+            }
+        }
+
+        ///////
+
+        // Inicializamos el valor de localStorage si no existe
+        if (!localStorage.getItem('contador')) {
+            localStorage.setItem('contador', 0);
+        }
+
+        // Función para actualizar el valor en el HTML
+        function actualizarValor() {
+            const valor = localStorage.getItem('contador');
+            document.getElementById('valor').textContent = valor;
+        }
+
+        // Actualizamos el valor al cargar la página
+        actualizarValor();
+
+        // Evento para el botón que suma 30, pero solo una vez
+        document.getElementById('regreso').addEventListener('click', () => {
+            // Verificamos si ya se sumaron los puntos una vez
+            if (localStorage.getItem('botonPresionado') !== 'true') {
+                let valorActual = parseInt(localStorage.getItem('contador'));
+                valorActual += 30;
+                localStorage.setItem('contador', valorActual);
+                localStorage.setItem('botonPresionado', 'true');  // Registramos que ya se sumó
+                actualizarValor();
+            }
+        });
+
+        // Escuchamos cambios en el localStorage para sincronizar entre pestañas
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'contador') {
+                actualizarValor();
+            }
+        });
+    </script>
+
+</body>
+
+<footer>
+
+    <div class="info">
+        <h2>DPCL</h2>
+        <p>Contactanos en:</p>
+        
+        
+    </div>
+
+    <div class="contactos">
+        <a class= "Enlace"href="mailto:contactodpcl@gmail.com"> 
+            <img class="imgEmail" src="imagenes/Vector-Email-Icon-Transparent.png" alt="email">
+        </a>
+        
+        <a  href="https://www.instagram.com/dpcl_web/?utm_source=ig_web_button_share_sheet">
+            <img class = "IG" src="imagenes/instagram_white_28dp.png" alt="IG">
+        </a>
+
+    </div>
+    
+    
+</footer>
+</html>
